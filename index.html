@@ -3,76 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Miami Talent Casting | The Ultimate Casting Authority</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <title>MIAMI TALENT CASTING | Commercial & TV Representation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
         :root {
-            --near-black: #06070a;
-            --off-white: #f7f4ee;
-            --platinum: #cfc7b8;
-            --emerald: #1f7a6d;
-            --card-bg: #0d0f14;
-            --glass: rgba(6, 7, 10, 0.85);
-            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --bg-dark: #070707;
+            --bg-card: #111111;
+            --bg-lighter: #161616;
+            --text-main: #f4f4f5;
+            --text-muted: #888888;
+            --accent-color: #00FFA3; 
+            --accent-dim: rgba(0, 255, 163, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --transition-fast: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            --transition-slow: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
-            background-color: var(--near-black);
-            color: var(--off-white);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             font-family: 'Montserrat', sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
         h1, h2, h3 {
             font-family: 'Playfair Display', serif;
             font-weight: 700;
-            color: var(--platinum);
+            color: var(--text-main);
         }
 
-        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        .accent-text { color: var(--accent-color); }
+        a { text-decoration: none; color: inherit; transition: var(--transition-fast); }
         ul { list-style: none; }
 
-        /* --- Global Button Styling --- */
-        .btn {
-            display: inline-block;
-            padding: 15px 35px;
-            background: transparent;
-            border: 1px solid var(--platinum);
-            color: var(--off-white);
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
+        /* --- Buttons --- */
+        .btn-premium {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 16px 42px; background: transparent; color: var(--accent-color);
+            text-transform: uppercase; font-weight: 600; font-size: 0.85rem;
+            letter-spacing: 3px; border: 1px solid var(--accent-color);
+            cursor: pointer; position: relative; overflow: hidden;
+            z-index: 1; transition: color var(--transition-slow), border-color var(--transition-slow);
         }
 
-        .btn:hover {
-            color: var(--near-black);
-            border-color: var(--emerald);
-            box-shadow: 0 0 20px rgba(31, 122, 109, 0.4);
+        .btn-premium::before {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%; background: var(--accent-color);
+            transition: left var(--transition-slow); z-index: -1;
         }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: var(--platinum);
-            transition: var(--transition);
-            z-index: -1;
+        .btn-premium:hover { color: var(--bg-dark); border-color: var(--accent-color); }
+        .btn-premium:hover::before { left: 0; }
+
+        .btn-outline {
+            display: inline-flex; align-items: center; padding: 15px 38px;
+            background: transparent; border: 1px solid var(--text-muted);
+            color: var(--text-main); text-transform: uppercase;
+            font-weight: 500; font-size: 0.85rem; letter-spacing: 2px;
+            cursor: pointer; transition: var(--transition-fast);
         }
+        .btn-outline:hover { border-color: var(--text-main); background: rgba(255,255,255,0.03); }
 
-        .btn:hover::before { left: 0; }
-
-        /* --- Glassmorphism Header --- */
+        /* --- Header (Dynamic Transparency) --- */
         header {
             position: fixed;
             top: 0; width: 100%;
@@ -81,9 +80,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(207, 199, 184, 0.1);
+            background: transparent;
+            border-bottom: 1px solid transparent;
+            transition: all 0.4s ease;
+        }
+
+        header.scrolled {
+            background: rgba(7, 7, 7, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 50px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 30px;
         }
 
         .logo {
@@ -91,247 +104,610 @@
             font-size: 1.5rem;
             font-weight: bold;
             letter-spacing: 3px;
-            color: var(--platinum);
-            text-shadow: 0 0 10px rgba(207, 199, 184, 0.3);
+            color: var(--text-main);
         }
 
+        /* Real-Time Status Indicator */
+        .status-indicator {
+            display: flex; align-items: center; gap: 8px; font-size: 0.65rem; 
+            text-transform: uppercase; letter-spacing: 1px; color: var(--accent-color); 
+            font-weight: 700; background: var(--accent-dim); padding: 6px 14px; 
+            border-radius: 20px; border: 1px solid rgba(0, 255, 163, 0.2);
+        }
+        .status-dot {
+            width: 6px; height: 6px; background: var(--accent-color); 
+            border-radius: 50%; box-shadow: 0 0 10px var(--accent-color); 
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+        @keyframes pulse { 
+            0% { transform: scale(0.8); opacity: 0.5; } 
+            50% { transform: scale(1.3); opacity: 1; } 
+            100% { transform: scale(0.8); opacity: 0.5; } 
+        }
+
+        .nav-center { display: flex; align-items: center; gap: 40px; }
         nav ul { display: flex; gap: 40px; }
-        nav ul li a { font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-        nav ul li a:hover { color: var(--emerald); text-shadow: 0 0 8px var(--emerald); }
+        nav ul li a { 
+            font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; 
+            text-transform: uppercase; color: var(--text-muted);
+        }
+        nav ul li a:hover { color: var(--text-main); }
+
+        /* Talent Search Integration */
+        .search-box { 
+            display: flex; align-items: center; background: rgba(255,255,255,0.05); 
+            border: 1px solid var(--glass-border); border-radius: 20px; 
+            padding: 5px 15px; transition: var(--transition-fast); 
+        }
+        .search-box:focus-within { border-color: var(--accent-color); background: rgba(255,255,255,0.1); }
+        .search-box input { 
+            background: transparent; border: none; color: var(--text-main); 
+            font-size: 0.75rem; padding: 5px 5px 5px 10px; outline: none; 
+            width: 140px; transition: width 0.3s; font-family: 'Montserrat', sans-serif;
+        }
+        .search-box input::placeholder { color: var(--text-muted); }
+        .search-box input:focus { width: 220px; }
+        .search-box i { color: var(--text-muted); font-size: 0.8rem; cursor: pointer;}
+        .search-box i:hover { color: var(--accent-color); }
+
+        .header-actions { display: flex; align-items: center; gap: 20px; }
+        
+        .lang-toggle {
+            display: flex; gap: 8px; font-size: 0.75rem; font-weight: 600;
+            color: var(--text-muted); letter-spacing: 1px; cursor: pointer;
+        }
+        .lang-toggle .active { color: var(--accent-color); }
+        .lang-toggle span:hover { color: var(--text-main); }
 
         /* --- Hero Section --- */
         #hero {
-            height: 100vh;
-            background: linear-gradient(rgba(6, 7, 10, 0.4), rgba(6, 7, 10, 0.7)), 
-                        url('https://images.pexels.com/photos/11388583/pexels-photo-11388583.jpeg') center/cover no-repeat;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
+            height: 100vh; position: relative; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; padding: 0 6%;
+            perspective: 1000px; 
         }
 
-        #hero h1 { font-size: 5rem; margin-bottom: 20px; letter-spacing: -1px; animation: fadeInDown 1.2s ease; }
+        .parallax-bg {
+            position: absolute; top: -10%; left: -10%; width: 120%; height: 120%;
+            background: linear-gradient(to bottom, rgba(7, 7, 7, 0.6), var(--bg-dark)), 
+                        url('https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?auto=format&fit=crop&q=80&w=2000') center/cover no-repeat;
+            z-index: -1; 
+            will-change: transform; 
+        }
+
+        .hero-content { 
+            max-width: 900px; z-index: 1; position: relative; 
+            animation: slideUp 1s ease forwards;
+            will-change: transform;
+        }
+        .tagline { font-size: 0.75rem; letter-spacing: 8px; text-transform: uppercase; color: var(--accent-color); font-weight: 500; margin-bottom: 20px; }
+        #hero h1 { font-size: 4.5rem; letter-spacing: -1px; margin-bottom: 20px; line-height: 1.1;}
+        .hero-btns { display: flex; gap: 20px; justify-content: center; margin-top: 40px; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- Advanced Social Proof Ticker --- */
+        .ticker-wrapper {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            background: rgba(0,0,0,0.5); border-top: 1px solid var(--glass-border);
+            padding: 15px 0; overflow: hidden; white-space: nowrap; z-index: 2;
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+        .ticker-track { 
+            display: inline-block; 
+            animation: scrollTicker 30s linear infinite; 
+        }
+        .ticker-track:hover { animation-play-state: paused; }
+
+        .ticker-item {
+            display: inline-block; padding: 0 40px; font-weight: 700; font-size: 0.8rem;
+            letter-spacing: 4px; color: rgba(255,255,255,0.4); text-transform: uppercase;
+            transition: color var(--transition-fast);
+            cursor: default;
+        }
+        .ticker-item:hover { color: var(--text-main); }
+        .ticker-item i { margin-right: 15px; color: var(--accent-color); font-size: 0.6rem; }
+        @keyframes scrollTicker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* --- Sections Layout --- */
+        .section-padding { padding: 120px 6%; }
+        .section-header { text-align: center; margin-bottom: 80px; }
+        .section-title { font-size: 3.5rem; margin-bottom: 15px; letter-spacing: -1px; }
+        .section-subtitle { color: var(--text-muted); font-size: 1rem; max-width: 700px; margin: 0 auto; line-height: 1.8;}
+
+        /* --- Facebook Live Feed --- */
+        .feed-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
+        .feed-card {
+            background: var(--bg-card); border: 1px solid var(--glass-border);
+            border-radius: 8px; overflow: hidden; transition: var(--transition-fast);
+        }
+        .feed-card:hover { border-color: var(--accent-dim); box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(-5px); }
+        .feed-img { width: 100%; height: 300px; object-fit: cover; border-bottom: 1px solid var(--glass-border); }
+        .feed-content { padding: 30px; }
+        .feed-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .feed-badge { background: var(--accent-dim); color: var(--accent-color); padding: 5px 12px; font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; border-radius: 4px; text-transform: uppercase; }
+        .feed-time { font-size: 0.75rem; color: var(--text-muted); }
+        .feed-caption { font-size: 0.85rem; line-height: 1.6; color: var(--text-main); white-space: pre-wrap; margin-bottom: 20px;}
+        .feed-cta { display: block; font-size: 0.8rem; color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- Multi-Step Form --- */
+        #onboarding { background: var(--bg-lighter); }
+        .form-container {
+            max-width: 800px; margin: 0 auto; background: var(--bg-card);
+            border: 1px solid var(--glass-border); padding: 50px; border-radius: 8px;
+        }
+
+        .step-indicator { display: flex; justify-content: space-between; margin-bottom: 40px; position: relative; }
+        .step-indicator::before { content: ''; position: absolute; top: 15px; left: 0; width: 100%; height: 2px; background: var(--glass-border); z-index: 0; }
+        .step-dot {
+            position: relative; z-index: 1; background: var(--bg-card); width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; color: var(--text-muted); transition: var(--transition-fast);
+        }
+        .step-dot.active { border-color: var(--accent-color); color: var(--accent-color); box-shadow: 0 0 15px var(--accent-dim); }
+        .step-dot.completed { background: var(--accent-color); color: var(--bg-dark); border-color: var(--accent-color); }
+        .step-label { position: absolute; top: 40px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); white-space: nowrap; }
+        .step-dot.active .step-label { color: var(--text-main); }
+
+        .form-step { display: none; animation: fadeIn 0.5s ease; }
+        .form-step.active { display: block; }
         
-        #hero .tagline {
-            font-size: 1rem;
-            letter-spacing: 6px;
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group.full { grid-column: span 2; }
+        
+        .form-group label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); font-weight: 600; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 15px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); color: var(--text-main); font-family: 'Montserrat', sans-serif; font-size: 0.9rem; transition: var(--transition-fast);
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--accent-color); }
+        .form-group input:invalid:focus, .form-group select:invalid:focus { border-color: #ff4a4a; }
+
+        .form-actions { display: flex; justify-content: space-between; margin-top: 30px; }
+        .btn-secondary { background: transparent; color: var(--text-muted); border: 1px solid var(--glass-border); padding: 15px 30px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; font-weight: 600; transition: var(--transition-fast); }
+        .btn-secondary:hover { color: white; border-color: white; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- Detailed Footer --- */
+        footer { 
+            border-top: 1px solid var(--glass-border); 
+            padding: 80px 6% 40px; 
+            background: var(--bg-dark);
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h4 {
+            font-size: 0.9rem;
+            color: var(--text-main);
+            margin-bottom: 25px;
             text-transform: uppercase;
-            margin-bottom: 40px;
-            color: var(--platinum);
-            font-weight: 700;
-            border-bottom: 2px solid var(--emerald);
-            padding-bottom: 10px;
+            letter-spacing: 2px;
         }
 
-        /* --- Content Layouts --- */
-        .section-padding { padding: 100px 8%; }
-        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 60px; letter-spacing: 2px; }
-
-        .castings-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-        .casting-card {
-            background: var(--card-bg);
-            border: 1px solid var(--platinum);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: var(--transition);
-            transform: translateY(30px);
+        .footer-about p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
         }
 
-        .casting-card:hover {
-            transform: translateY(0);
-            box-shadow: 0 10px 30px rgba(31, 122, 109, 0.3);
-            border-color: var(--emerald);
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { 
+            font-size: 0.85rem; color: var(--text-muted); 
+            text-transform: uppercase; letter-spacing: 1px; transition: var(--transition-fast);
         }
+        .footer-links a:hover { color: var(--accent-color); padding-left: 5px; }
 
-        .casting-img { height: 400px; background-size: cover; background-position: center; }
-        .casting-content { padding: 30px; text-align: center; }
-
-        /* --- Events Scroll --- */
-        .events-scroll {
+        .footer-contact p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 15px;
             display: flex;
-            gap: 30px;
-            overflow-x: auto;
-            padding-bottom: 40px;
+            align-items: center;
+            gap: 12px;
+        }
+        .footer-contact i { color: var(--accent-color); font-size: 1rem; }
+
+        .social-links { display: flex; gap: 20px; margin-top: 20px; }
+        .social-links a { 
+            width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--glass-border);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; color: var(--text-main); transition: var(--transition-fast); 
         }
 
-        .event-card {
-            min-width: 400px; height: 250px;
-            position: relative; overflow: hidden;
-            border-radius: 5px;
+        .social-links a:hover { border-color: var(--accent-color); transform: translateY(-3px); }
+        .fa-facebook-f:hover { color: #1877f2; box-shadow: 0 5px 15px rgba(24, 119, 242, 0.3); }
+        .fa-instagram:hover { color: #e4405f; box-shadow: 0 5px 15px rgba(228, 64, 95, 0.3); }
+        .fa-x-twitter:hover { color: #ffffff; box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2); }
+
+        .footer-bottom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-top: 40px;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 30px;
+            text-transform: uppercase;
         }
 
-        .event-overlay {
-            position: absolute; inset: 0;
-            display: flex; flex-direction: column;
-            justify-content: flex-end; padding: 20px;
-            background: linear-gradient(transparent, rgba(6, 7, 10, 0.9));
+        .skyloft-link {
+            color: var(--accent-color); font-weight: 700;
+            transition: var(--transition-fast); text-decoration: none;
         }
+        .skyloft-link:hover { color: #fff; text-shadow: 0 0 10px var(--accent-color); }
 
-        .event-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
-        .event-card:hover img { transform: scale(1.1); }
-
-        /* --- About Section --- */
-        .about-split { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-        .founder-img {
-            width: 400px; height: 400px; border-radius: 50%;
-            object-fit: cover; border: 5px solid var(--platinum);
-            margin: 0 auto; display: block;
+        @media (max-width: 1000px) {
+            header { padding: 20px; flex-direction: column; gap: 15px; background: rgba(7,7,7,0.95); }
+            .header-left { width: 100%; justify-content: space-between; }
+            .nav-center, .lang-toggle { display: none; }
+            #hero h1 { font-size: 2.8rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full { grid-column: span 1; }
+            .step-label { display: none; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+            .footer-bottom-row { flex-direction: column; gap: 20px; text-align: center; }
         }
-
-        /* --- Contact --- */
-        .contact-card {
-            background: linear-gradient(145deg, #0d0f14, #141a19);
-            padding: 60px; border-radius: 20px;
-            max-width: 800px; border: 1px solid rgba(207, 199, 184, 0.1);
-            margin: 0 auto;
-        }
-
-        input, textarea {
-            width: 100%; padding: 15px; background: rgba(255,255,255,0.05);
-            border: 1px solid var(--platinum); color: white;
-            margin-bottom: 20px; font-family: 'Montserrat';
-        }
-
-        /* --- Footer & Social Glows --- */
-        footer { border-top: 1px solid rgba(207, 199, 184, 0.1); padding: 80px 8% 40px; text-align: center; }
-        .social-links { display: flex; justify-content: center; gap: 40px; margin: 40px 0; }
-        .social-links a { font-size: 2rem; color: var(--off-white); transition: var(--transition); }
-
-        .fa-facebook-f:hover { color: #1877f2; text-shadow: 0 0 20px #1877f2; }
-        .fa-instagram:hover { color: #e4405f; text-shadow: 0 0 20px #e4405f; }
-        .fa-x-twitter:hover { color: #ffffff; text-shadow: 0 0 20px white; }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+        @media (max-width: 600px) {
+            .footer-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">MTC</div>
-        <nav>
-            <ul>
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#castings">Castings</a></li>
-                <li><a href="#events">Events</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+    <header id="main-header">
+        <div class="header-left">
+            <div class="logo">MIAMI TALENT CASTING</div>
+            <div class="status-indicator">
+                <span class="status-dot"></span> <span>Casting Live</span>
+            </div>
+        </div>
+        
+        <div class="nav-center">
+            <nav>
+                <ul>
+                    <li><a href="#live-feed">Live Feed</a></li>
+                    <li><a href="#onboarding">Self-Tape</a></li>
+                </ul>
+            </nav>
+            <div class="search-box">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" placeholder="Search roles or talent...">
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <div class="lang-toggle">
+                <span class="active">EN</span> <span style="color: var(--glass-border);">|</span> <span>ES</span>
+            </div>
+            <a href="#onboarding" class="btn-premium" style="padding: 10px 20px; font-size: 0.7rem;">Submit Tape</a>
+        </div>
     </header>
 
     <section id="hero">
-        <p class="tagline">Miami's Premier Full-Service Agency</p>
-        <h1>Step Into the Spotlight</h1>
-        <a href="#contact" class="btn">Start Your Career</a>
+        <div class="parallax-bg" id="parallax"></div>
+        <div class="hero-content" id="hero-content">
+            <div class="tagline">Commercial & Network Representation</div>
+            <h1>Casting The World's <br>Most Dynamic <span class="accent-text">Faces</span></h1>
+            <div class="hero-btns">
+                <a href="#live-feed" class="btn-premium">View Urgent Castings</a>
+            </div>
+        </div>
+
+        <div class="ticker-wrapper">
+            <div class="ticker-track">
+                <span class="ticker-item"><i class="fa-solid fa-video"></i> HBO NETWORK</span>
+                <span class="ticker-item"><i class="fa-solid fa-video"></i> DISNEY WORLD</span>
+                <span class="ticker-item"><i class="fa-solid fa-video"></i> COMMERCIAL PRINT</span>
+                <span class="ticker-item"><i class="fa-solid fa-video"></i> ATHLETIC PROMOS</span>
+                <span class="ticker-item"><i class="fa-solid fa-video"></i> BILINGUAL TALENT</span>
+                <span class="ticker-item"><i class="fa-solid fa-video"></i> HBO NETWORK</span>
+                <span class="ticker-item"><i class="fa-solid fa-video"></i> DISNEY WORLD</span>
+                <span class="ticker-item"><i class="fa-solid fa-video"></i> COMMERCIAL PRINT</span>
+                <span class="ticker-item"><i class="fa-solid fa-video"></i> ATHLETIC PROMOS</span>
+                <span class="ticker-item"><i class="fa-solid fa-video"></i> BILINGUAL TALENT</span>
+            </div>
+        </div>
     </section>
 
-    <section id="castings" class="section-padding">
-        <h2 class="section-title">Featured Castings</h2>
-        <div class="castings-grid">
-            <div class="casting-card">
-                <div class="casting-img" style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=600');"></div>
-                <div class="casting-content">
-                    <h3>High-Fashion Editorial</h3>
-                    <p>Global Luxury Brand Campaign</p><br>
-                    <button class="btn">View Details</button>
+    <section id="live-feed" class="section-padding">
+        <div class="section-header">
+            <h2 class="section-title">Agency <span class="accent-text">Live Feed</span></h2>
+            <p class="section-subtitle">Real-time updates, urgent castings, and self-tape requests straight from our casting directors.</p>
+        </div>
+
+        <div class="feed-grid">
+            <div class="feed-card">
+                <img src="https://scontent.fkhi10-1.fna.fbcdn.net/v/t39.30808-6/674619045_1511009423723708_3840332560108916844_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=13d280&_nc_ohc=yqro6GlicOsQ7kNvwHMA15C&_nc_oc=AdqBXs_2SlQvSPi26Tul_-gPDw2lgWE6psWb3uamptCgD6ZoMt-1MW4742Cx8LNhMIE&_nc_zt=23&_nc_ht=scontent.fkhi10-1.fna&_nc_gid=yxylDBjPMHdphaK-Yq1-fA&_nc_ss=7b2a8&oh=00_Af2wy1OmlVr8r8adKbz48SeKANY4KukdoytIl4YC736k_g&oe=69EEEB27" alt="HBO Promo Casting" class="feed-img">
+                <div class="feed-content">
+                    <div class="feed-header">
+                        <span class="feed-badge">Submitting ASAP</span>
+                        <span class="feed-time">22 hours ago</span>
+                    </div>
+                    <div class="feed-caption"><strong>MIAMI - HBO PROMO</strong>
+RATE $800 - 20%
+Shoots April 26/27. be avail both days.
+
+Looking for MEN AND WOMEN 18-30 or so.
+Brazilian / Portuguese / Mexican
+MUST HAVE NATIVE MEXICAN ACCENT OR SPEAK PORTUGUESE VERY WELL.
+Must be local in Miami, no travel.
+
+ALSO, still looking for soccer players, all eth, all nationalities, men only, 18-40.</div>
+                    <a href="#onboarding" class="feed-cta">Request Self-Tape Info <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
-            <div class="casting-card">
-                <div class="casting-img" style="background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600');"></div>
-                <div class="casting-content">
-                    <h3>Commercial Series</h3>
-                    <p>International Tech Launch</p><br>
-                    <button class="btn">View Details</button>
-                </div>
-            </div>
-            <div class="casting-card">
-                <div class="casting-img" style="background-image: url('https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=600');"></div>
-                <div class="casting-content">
-                    <h3>Major Motion Picture</h3>
-                    <p>Leading Role Casting</p><br>
-                    <button class="btn">View Details</button>
+
+            <div class="feed-card">
+                <img src="https://scontent.fkhi10-1.fna.fbcdn.net/v/t39.30808-6/673844616_1507337117424272_5154322811867497539_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=106&ccb=1-7&_nc_sid=13d280&_nc_ohc=fgRxJWQPpw4Q7kNvwHnnuDE&_nc_oc=Adrl1KArpYhLBPI5g-el15pBgk4HhyZVXlDSm6510swPpyrK-hwLFlrm9vuNypspByI&_nc_zt=23&_nc_ht=scontent.fkhi10-1.fna&_nc_gid=N68o90Rz1b0U5TdTh2Jo9Q&_nc_ss=7a2a8&oh=00_Af2j-WCQ6EfuUqcrv3dwdblqBrp4yRxStVzI-qWKbJAqTw&oe=69EEE61B" alt="Disney Promo Casting" class="feed-img">
+                <div class="feed-content">
+                    <div class="feed-header">
+                        <span class="feed-badge">Submitting ASAP</span>
+                        <span class="feed-time">April 16</span>
+                    </div>
+                    <div class="feed-caption"><strong>ORLANDO, FLA - BLUEY / DISNEY PROMO</strong>
+Hero Kid must be 6yrs or older by May 27th.
+Must have family willing to be cast and speak on camera as well. Looking to book a family of 6. (parents, siblings, grandparents.)
+
+Job will work 2 days between May 27th and 30th.
+$650/day per person (2 days) -20% AF.
+ALL ETHNICITIES.</div>
+                    <a href="#onboarding" class="feed-cta">Request Self-Tape Info <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="events" class="section-padding" style="background: #0a0c10;">
-        <h2 class="section-title">Global Events</h2>
-        <div class="events-scroll">
-            <div class="event-card">
-                <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=800" alt="Fashion Week">
-                <div class="event-overlay">
-                    <h3>Miami Fashion Week Mixer</h3>
-                    <p>Feb 12, 2026</p>
-                </div>
-            </div>
-            <div class="event-card">
-                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=800" alt="Casting Call">
-                <div class="event-overlay">
-                    <h3>Regional Open Call</h3>
-                    <p>Mar 05, 2026</p>
-                </div>
-            </div>
-            <div class="event-card">
-                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=800" alt="Masterclass">
-                <div class="event-overlay">
-                    <h3>Elite Masterclass</h3>
-                    <p>April 20, 2026</p>
-                </div>
-            </div>
+    <section id="onboarding" class="section-padding">
+        <div class="section-header">
+            <h2 class="section-title">Self-Tape <span class="accent-text">Portal</span></h2>
+            <p class="section-subtitle">Submit your audition materials directly to our casting directors for specific roles.</p>
         </div>
-    </section>
-
-    <section id="about" class="section-padding">
-        <div class="about-split">
-            <div>
-                <h2 style="font-size: 3rem; margin-bottom: 30px;">Our Heritage</h2>
-                <p style="font-size: 1.1rem; color: var(--platinum);">Miami Talent Casting isn't just an agency; it's an institution. We manage thousands of top-tier talent and bridge the gap between emerging stars and global brands.</p>
-                <br>
-                <p>Our expansive network ensures our talent is seen on every major runway, screen, and billboard across the globe.</p>
+        
+        <div class="form-container">
+            <div class="step-indicator">
+                <div class="step-dot active" id="dot-1">1<span class="step-label">Contact</span></div>
+                <div class="step-dot" id="dot-2">2<span class="step-label">Specs & Skills</span></div>
+                <div class="step-dot" id="dot-3">3<span class="step-label">Media</span></div>
             </div>
-            <div>
-                <img src="https://m.media-amazon.com/images/M/MV5BMjA1OTU5OTQwMF5BMl5BanBnXkFtZTgwNjAzMzY1MzI@._V1_UX214_CR0,0,214,317_AL_.jpg" alt="Director" class="founder-img">
-                <p style="text-align: center; margin-top: 20px; font-style: italic;">Managing Director</p>
-            </div>
-        </div>
-    </section>
 
-    <section id="contact" class="section-padding">
-        <div class="contact-card">
-            <h2 class="section-title" style="margin-bottom: 40px;">Professional Inquiries</h2>
-            <form>
-                <input type="text" placeholder="Full Name">
-                <input type="email" placeholder="Professional Email">
-                <textarea rows="5" placeholder="Inquiry Details"></textarea>
-                <button type="submit" class="btn" style="width: 100%;">Connect with MTC</button>
+            <form id="submissionForm" onsubmit="handleFormSubmit(event)">
+                <div class="form-step active" id="step-1">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Legal First Name *</label>
+                            <input type="text" placeholder="First Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Legal Last Name *</label>
+                            <input type="text" placeholder="Last Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address *</label>
+                            <input type="email" placeholder="email@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Current City / Location *</label>
+                            <input type="text" placeholder="e.g. Miami, Orlando" required>
+                        </div>
+                    </div>
+                    <div class="form-actions" style="justify-content: flex-end;">
+                        <button type="button" class="btn-premium" onclick="nextStep(1, 2)">Next Step <i class="fa-solid fa-arrow-right" style="margin-left: 10px;"></i></button>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step-2">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Primary Discipline *</label>
+                            <select required>
+                                <option value="" disabled selected>Select Category...</option>
+                                <option value="commercial">Commercial / Promo Actor</option>
+                                <option value="real_family">Real Family Submission</option>
+                                <option value="athletic">Athletic / Sports Model</option>
+                                <option value="fashion">Fashion / Print Model</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Age Range *</label>
+                            <input type="text" placeholder="e.g. 18-30" required>
+                        </div>
+                        <div class="form-group full">
+                            <label>Languages & Accents Spoken Fluently</label>
+                            <input type="text" placeholder="e.g. English, Native Mexican Accent, Fluent Portuguese...">
+                        </div>
+                        <div class="form-group full">
+                            <label>Special Skills</label>
+                            <input type="text" placeholder="e.g. Professional Soccer Player, Yoga Instructor, Valid Passport...">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="nextStep(2, 1)">Back</button>
+                        <button type="button" class="btn-premium" onclick="nextStep(2, 3)">Next Step <i class="fa-solid fa-arrow-right" style="margin-left: 10px;"></i></button>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step-3">
+                    <div class="form-grid">
+                        <div class="form-group full">
+                            <label>Self-Tape / Video Reel Link *</label>
+                            <input type="url" placeholder="Vimeo, YouTube, or Google Drive Link" required>
+                        </div>
+                        <div class="form-group full">
+                            <label>Instagram Handle / Digital Portfolio</label>
+                            <input type="text" placeholder="@username">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="nextStep(3, 2)">Back</button>
+                        <button type="submit" class="btn-premium" style="background: var(--accent-color); color: var(--bg-dark);">Submit to Casting <i class="fa-solid fa-check" style="margin-left: 10px;"></i></button>
+                    </div>
+                    <p style="text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: 20px;">Submissions are sent directly to miamitalentcasting@gmail.com</p>
+                </div>
             </form>
         </div>
     </section>
 
     <footer>
-        <div class="logo" style="margin-bottom: 20px;">MTC</div>
-        <p>305-494-3939  |  talent@miamitalentcasting.com</p>
-        
-        <div class="social-links">
-            <a href="#" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#" title="Twitter / X"><i class="fa-brands fa-x-twitter"></i></a>
-        </div>
-        
-        <div style="font-size: 0.7rem; letter-spacing: 2px; color: var(--platinum); margin-top: 40px;">
-            © 2026 MIAMI TALENT CASTING. ALL RIGHTS RESERVED.
+        <div class="footer-grid">
+            <div class="footer-col footer-about">
+                <div class="logo" style="margin-bottom: 20px;">MIAMI TALENT CASTING</div>
+                <p>Premier talent representation spanning South Florida, Orlando, and Atlanta. Connecting dynamic, bilingual, and athletic faces with global networks, commercial prints, and feature films since 2010.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/MiamiTalentCasting/" target="_blank" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" title="Twitter / X"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" title="IMDbPro"><i class="fa-brands fa-imdb"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Agency Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#live-feed">Live Casting Feed</a></li>
+                    <li><a href="#onboarding">Submit Self-Tape</a></li>
+                    <li><a href="#">Client Access Portal</a></li>
+                    <li><a href="#">Success Stories</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Legal & Policies</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Talent Guidelines</a></li>
+                    <li><a href="#">Scam Awareness</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col footer-contact">
+                <h4>Contact Us</h4>
+                <p><i class="fa-solid fa-location-dot"></i> Miami, FL Main Office <br>(By Appointment Only)</p>
+                <p><i class="fa-solid fa-phone"></i> 305-494-3939</p>
+                <p><i class="fa-solid fa-envelope"></i> miamitalentcasting@gmail.com</p>
+                <p style="margin-top: 20px; font-size: 0.75rem;">
+                    <i class="fa-solid fa-clock"></i> Mon - Fri: 9:00 AM - 6:00 PM (EST)
+                </p>
+            </div>
         </div>
 
-        <div style="font-size: 0.7rem; letter-spacing: 2px; color: var(--platinum); margin-top: 10px;">
-            Designed By <a href="https://www.skyloftdigital.com" target="_blank" style="color: var(--emerald); font-weight: bold; text-decoration: none;">Skyloft Digital</a>
+        <p style="text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 20px;">
+            <i class="fa-solid fa-shield-halved" style="color: var(--accent-color);"></i> 
+            <em>SCAM WARNING: MTC agents will NEVER ask for payment via DM or request sensitive financial data over social media.</em>
+        </p>
+
+        <div class="footer-bottom-row">
+            <div>© 2026 MIAMI TALENT CASTING. ALL RIGHTS RESERVED.</div>
+            <div>PROTOTYPE BY <a href="https://www.skyloftdigital.com" target="_blank" class="skyloft-link">SKYLOFT DIGITAL</a></div>
         </div>
     </footer>
 
+    <script>
+        // 1. Dynamic Header Transparency
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // 2. Advanced Parallax & 3D Micro-Interactions (Smooth Lerping)
+        let mouseX = 0;
+        let mouseY = 0;
+        let currentX = 0;
+        let currentY = 0;
+        
+        const parallaxBg = document.getElementById('parallax');
+        const heroContent = document.getElementById('hero-content');
+
+        document.addEventListener('mousemove', (e) => {
+            // Calculate mouse position relative to center of screen
+            mouseX = (e.clientX - window.innerWidth / 2);
+            mouseY = (e.clientY - window.innerHeight / 2);
+        });
+
+        function animateParallax() {
+            // Linear Interpolation for buttery smooth movement
+            currentX += (mouseX - currentX) * 0.05;
+            currentY += (mouseY - currentY) * 0.05;
+
+            // Shift background
+            if (parallaxBg && heroContent) {
+                parallaxBg.style.transform = `translate(${currentX * -0.04}px, ${currentY * -0.04}px) scale(1.05)`;
+                // 3D tilt effect on the hero text
+                heroContent.style.transform = `rotateY(${currentX * 0.015}deg) rotateX(${currentY * -0.015}deg) translateZ(10px)`;
+            }
+
+            requestAnimationFrame(animateParallax);
+        }
+        animateParallax();
+
+        // 3. Multi-Step Form Logic (With validation bug fix)
+        function nextStep(current, next) {
+            // FIX: Validate the current step before allowing forward progression
+            if (next > current) {
+                const currentStepEl = document.getElementById(`step-${current}`);
+                const inputs = currentStepEl.querySelectorAll('input[required], select[required], textarea[required]');
+                let isValid = true;
+                
+                for (let input of inputs) {
+                    if (!input.checkValidity()) {
+                        input.reportValidity(); // This forces the browser's native required tooltip
+                        isValid = false;
+                        break; // Stop at the first invalid input
+                    }
+                }
+                
+                if (!isValid) return; // Halt progression if invalid
+            }
+
+            // Transition Steps
+            document.getElementById(`step-${current}`).classList.remove('active');
+            document.getElementById(`step-${next}`).classList.add('active');
+            
+            // Update Step Indicators
+            if (next > current) {
+                document.getElementById(`dot-${current}`).classList.add('completed');
+                document.getElementById(`dot-${current}`).classList.remove('active');
+                document.getElementById(`dot-${next}`).classList.add('active');
+            } else {
+                document.getElementById(`dot-${current}`).classList.remove('active');
+                document.getElementById(`dot-${next}`).classList.remove('completed');
+                document.getElementById(`dot-${next}`).classList.add('active');
+            }
+        }
+
+        // Improved Form Submit Functionality (Resets cleanly)
+        function handleFormSubmit(event) {
+            event.preventDefault(); // Prevent page reload
+            
+            alert('Submission Sent to miamitalentcasting@gmail.com!');
+            
+            // Reset the form fields entirely
+            event.target.reset();
+            
+            // Smoothly send user back to Step 1 visually
+            document.getElementById('step-3').classList.remove('active');
+            document.getElementById('step-1').classList.add('active');
+            
+            // Reset indicators
+            document.getElementById('dot-3').classList.remove('active');
+            document.getElementById('dot-2').classList.remove('completed');
+            document.getElementById('dot-1').classList.remove('completed');
+            document.getElementById('dot-1').classList.add('active');
+        }
+    </script>
 </body>
 </html>
